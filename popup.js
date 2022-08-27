@@ -30,7 +30,7 @@ async function main() {
     const domain = domainInput.value
 
     if (domain.trim()) {
-      if (!domainsCookie.every((el) => el.name !== domain)) {
+      if (domainsCookie.every((el) => el.name !== domain)) {
         const newDomains = [
           ...domainsCookie,
           { name: domain, createdAt: Date.now() },

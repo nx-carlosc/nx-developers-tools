@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link rel="stylesheet" href="styles.css">
   <script src="utils/cookies.js"></script>
   <script defer src="popup.js"></script>
 </head>
+
 <body>
   <h2>
     Domain Replacer
   </h2>
   <main>
-    <input type="text" name="domain" id="replaceDomainInput">
-    <button id="replaceDomainButton">
-      Replace Domain
-    </button>
+    <form>
+      <input type="text" name="domain" list="domains" id="replaceDomainInput">
+      <datalist id="domains">
+      </datalist>
+      <button id="replaceDomainButton">
+        Replace
+      </button>
+      <button id="removeDomainButton">
+        Remove
+      </button>
+    </form>
   </main>
 </body>
+
 </html>

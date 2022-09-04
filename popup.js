@@ -44,6 +44,8 @@ async function handleClickReplaceDomain(event) {
 		setCookie(COOKIE_NAME, JSON.stringify(newDomains))
 		fillWithCookieDomains(newDomains)
 		const activeTab = await getCurrentTab()
+		const tabUrl = activeTab.newUrl
+		console.log({ tabUrl })
 		chrome.tabs.sendMessage(activeTab.id, { newDomain: selectedDomain }, handleMessage)
 	}
 }

@@ -1,46 +1,81 @@
+const COOKIE_NAME = "domain-replacer-values"
+
 main()
 
-async function getCurrentTab() {
-  return new Promise((resolve, reject) => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs.length) {
-        resolve(tabs[0])
-      } else {
-        reject(new Error("No active tab"))
-      }
-    })
-  })
+async function main() {
+	const replaceButton = document.querySelector("#replaceDomainButton")
+	const removeButton = document.querySelector("#removeDomainButton")
+	const rawCookie = getCookie(COOKIE_NAME)
+
+	if (rawCookie) {
+		const domainsCookie = JSON.parse(rawCookie)
+		fillWithCookieDomains(domainsCookie)
+	}
+
+	replaceButton.addEventListener("click", handleClickReplaceDomain)
+	removeButton.addEventListener("click", handleClickRemoveDomain)
 }
 
-async function main() {
-  const COOKIE_NAME = "domain-replacer-values"
-  const domainInput = document.querySelector("#replaceDomainInput")
-  const replaceButton = document.querySelector("#replaceDomainButton")
-  let domainsCookie = []
-  const rawCookie = getCookie(COOKIE_NAME)
+function fillWithCookieDomains(domains) {
+	domains.sort((a, b) => b.createdAt - a.createdAt)
+	const domainInput = document.querySelector("#replaceDomainInput")
+	const datalist = document.querySelector("datalist#domains")
+	domainInput.value = domains.length ? domains[0].name : ""
 
-  if (rawCookie) {
-    domainsCookie = JSON.parse(rawCookie)
-  }
+	const options = domains
+		.map(
+			(domain, i) =>
+				`<option ${i === 0 && "selected"} value="${domain.name}">${
+					domain.name
+				}</select>`
+		)
+		.join("\n")
 
-  domainsCookie.length > 0 &&
-    (domainInput.value = domainsCookie[domainsCookie.length - 1].name)
+	datalist.innerHTML = options
+}
 
-  replaceButton.addEventListener("click", async () => {
-    const domain = domainInput.value
+async function handleClickReplaceDomain(event) {
+	event.preventDefault()
+	const domainInput = document.querySelector("#replaceDomainInput")
+	const selectedDomain = domainInput.value.trim()
 
-    if (domain.trim()) {
-      if (domainsCookie.every((el) => el.name !== domain)) {
-        const newDomains = [
-          ...domainsCookie,
-          { name: domain, createdAt: Date.now() },
-        ]
-        domainsCookie = newDomains
-        setCookie(COOKIE_NAME, JSON.stringify(newDomains))
-      }
+	if (selectedDomain) {
+		const newDomain = { name: selectedDomain, createdAt: Date.now() }
+		const rawCookie = getCookie(COOKIE_NAME)
+		const domainsCookie = rawCookie ? JSON.parse(rawCookie) : []
+		const newDomains = domainsCookie.every((el) => el.name !== selectedDomain)
+			? [...domainsCookie, newDomain]
+			: [...domainsCookie.filter((el) => el.name !== selectedDomain), newDomain]
+		setCookie(COOKIE_NAME, JSON.stringify(newDomains))
+		fillWithCookieDomains(newDomains)
+		const activeTab = await getCurrentTab()
+		chrome.tabs.sendMessage(activeTab.id, { newDomain: selectedDomain })
+	}
+}
 
-      const activeTab = await getCurrentTab()
-      chrome.tabs.sendMessage(activeTab.id, { newDomain: domain })
-    }
-  })
+function handleClickRemoveDomain(event) {
+	event.preventDefault()
+	const domainInput = document.querySelector("#replaceDomainInput")
+	const selectedDomain = domainInput.value
+	const rawCookie = getCookie(COOKIE_NAME)
+	if (rawCookie) {
+		const domainsCookie = rawCookie ? JSON.parse(rawCookie) : []
+		const newDomains = domainsCookie.filter(
+			(domain) => domain.name !== selectedDomain
+		)
+		setCookie(COOKIE_NAME, JSON.stringify(newDomains))
+		fillWithCookieDomains(newDomains)
+	}
+}
+
+async function getCurrentTab() {
+	return new Promise((resolve, reject) => {
+		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+			if (tabs.length) {
+				resolve(tabs[0])
+			} else {
+				reject(new Error("No active tab"))
+			}
+		})
+	})
 }

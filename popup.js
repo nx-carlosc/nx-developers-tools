@@ -1,20 +1,16 @@
 const COOKIE_NAME = "domain-replacer-values"
 
-main()
+const replaceButton = document.querySelector("#replaceDomainButton")
+const removeButton = document.querySelector("#removeDomainButton")
+const rawCookie = getCookie(COOKIE_NAME)
 
-async function main() {
-	const replaceButton = document.querySelector("#replaceDomainButton")
-	const removeButton = document.querySelector("#removeDomainButton")
-	const rawCookie = getCookie(COOKIE_NAME)
-
-	if (rawCookie) {
-		const domainsCookie = JSON.parse(rawCookie)
-		fillWithCookieDomains(domainsCookie)
-	}
-
-	replaceButton.addEventListener("click", handleClickReplaceDomain)
-	removeButton.addEventListener("click", handleClickRemoveDomain)
+if (rawCookie) {
+	const domainsCookie = JSON.parse(rawCookie)
+	fillWithCookieDomains(domainsCookie)
 }
+
+replaceButton.addEventListener("click", handleClickReplaceDomain)
+removeButton.addEventListener("click", handleClickRemoveDomain)
 
 function fillWithCookieDomains(domains) {
 	domains.sort((a, b) => b.createdAt - a.createdAt)
@@ -25,9 +21,8 @@ function fillWithCookieDomains(domains) {
 	const options = domains
 		.map(
 			(domain, i) =>
-				`<option ${i === 0 && "selected"} value="${domain.name}">${
-					domain.name
-				}</select>`
+				`<option ${i === 0 ? "selected" : ""} value="${domain.name}">${domain.name
+				}</option>`
 		)
 		.join("\n")
 
@@ -49,7 +44,26 @@ async function handleClickReplaceDomain(event) {
 		setCookie(COOKIE_NAME, JSON.stringify(newDomains))
 		fillWithCookieDomains(newDomains)
 		const activeTab = await getCurrentTab()
-		chrome.tabs.sendMessage(activeTab.id, { newDomain: selectedDomain })
+		chrome.tabs.sendMessage(activeTab.id, { newDomain: selectedDomain }, handleMessage)
+	}
+}
+
+async function handleMessage({ newUrl }) {
+	if (newUrl) {
+		const $message = document.querySelector(".message")
+		$message.innerHTML = 'Fetching...'
+
+		fetch(newUrl, {
+			mode: 'no-cors'
+		})
+		.then(async () => {
+			$message.innerHTML = ''
+			const activeTab = await getCurrentTab()
+			chrome.tabs.sendMessage(activeTab.id, { replaceDomain: newUrl })
+		})
+		.catch(() => {
+			$message.innerHTML = "No available domain"
+		})
 	}
 }
 

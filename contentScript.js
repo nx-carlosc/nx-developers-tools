@@ -1,19 +1,27 @@
 chrome.runtime.onMessage.addListener(handleMessage)
 
-async function handleMessage (message) {
-  const { newDomain } = message
-  const href = new URL(window.location.href)
-  const pathname = href.pathname
-  const newUrl = `${newDomain.replace(/&\//, '')}${pathname}`
+function handleMessage({ newDomain, replaceDomain }, sender, sendResponse) {
+  if (replaceDomain) {
+    window.open(replaceDomain, "_blank")
+    return
+  } 
 
-  const res = await fetch(newUrl, {
-    mode: "no-cors"
-  })
-  .then(() => {
-    window.location.href = newUrl
-  })
-  .catch((err) => {
-    console.error(err);
-    alert("Not available domain")
-  })
+  const { href, origin } = new URL(window.location.href)
+  const newUrl = href.replace(origin, newDomain.replace(/\/$/, ''))
+
+  sendResponse({ newUrl })
+
+  // fetch(newUrl, {
+  //   mode: 'no-cors'
+  // })
+  //   .then((res) => {
+  //     console.log(res);
+  //     // window.location.href = newUrl
+  //     window.open(newUrl, "_blank")
+  //   })
+  // .catch(() => {
+  //   console.log({ message: "No available domain" })
+  //   setTimeout(() => sendResponse({ message: "No available domain" }), 1)
+  //   return true;
+  // })
 }

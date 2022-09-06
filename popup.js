@@ -32,7 +32,7 @@ function fillWithCookieDomains(domains) {
 async function handleClickReplaceDomain(event) {
 	event.preventDefault()
 	const domainInput = document.querySelector("#replaceDomainInput")
-	const selectedDomain = domainInput.value.trim()
+	const selectedDomain = domainInput.value.trim().replace(/\/$/, '')
 
 	if (selectedDomain) {
 		const newDomain = { name: selectedDomain, createdAt: Date.now() }
@@ -44,28 +44,25 @@ async function handleClickReplaceDomain(event) {
 		setCookie(COOKIE_NAME, JSON.stringify(newDomains))
 		fillWithCookieDomains(newDomains)
 		const activeTab = await getCurrentTab()
-		const tabUrl = activeTab.newUrl
-		console.log({ tabUrl })
-		chrome.tabs.sendMessage(activeTab.id, { newDomain: selectedDomain }, handleMessage)
-	}
-}
+		const tabUrl = activeTab.url
 
-async function handleMessage({ newUrl }) {
-	if (newUrl) {
-		const $message = document.querySelector(".message")
-		$message.innerHTML = 'Fetching...'
+		if (tabUrl) {
+			const { origin } = new URL(tabUrl)
+			const newUrl = tabUrl.replace(origin, selectedDomain)
+			const $message = document.querySelector(".message")
+			$message.innerHTML = 'Fetching...'
 
-		fetch(newUrl, {
-			mode: 'no-cors'
-		})
-		.then(async () => {
-			$message.innerHTML = ''
-			const activeTab = await getCurrentTab()
-			chrome.tabs.sendMessage(activeTab.id, { replaceDomain: newUrl })
-		})
-		.catch(() => {
-			$message.innerHTML = "No available domain"
-		})
+			fetch(newUrl, {
+				mode: 'no-cors'
+			})
+				.then(async () => {
+					$message.innerHTML = ''
+					chrome.tabs.sendMessage(activeTab.id, { newUrl })
+				})
+				.catch(() => {
+					$message.innerHTML = "No available domain"
+				})
+		}
 	}
 }
 

@@ -1,5 +1,5 @@
 const COOKIE_NAME = "domain-replacer-values"
-
+const domainInput = document.querySelector("#replaceDomainInput")
 const replaceButton = document.querySelector("#replaceDomainButton")
 const removeButton = document.querySelector("#removeDomainButton")
 const rawCookie = getCookie(COOKIE_NAME)
@@ -7,6 +7,7 @@ const rawCookie = getCookie(COOKIE_NAME)
 if (rawCookie) {
 	const domainsCookie = JSON.parse(rawCookie)
 	fillWithCookieDomains(domainsCookie)
+	domainInput.select()
 }
 
 replaceButton.addEventListener("click", handleClickReplaceDomain)
@@ -14,7 +15,6 @@ removeButton.addEventListener("click", handleClickRemoveDomain)
 
 function fillWithCookieDomains(domains) {
 	domains.sort((a, b) => b.createdAt - a.createdAt)
-	const domainInput = document.querySelector("#replaceDomainInput")
 	const datalist = document.querySelector("datalist#domains")
 	domainInput.value = domains.length ? domains[0].name : ""
 
@@ -31,7 +31,6 @@ function fillWithCookieDomains(domains) {
 
 async function handleClickReplaceDomain(event) {
 	event.preventDefault()
-	const domainInput = document.querySelector("#replaceDomainInput")
 	const selectedDomain = domainInput.value.trim().replace(/\/$/, '')
 
 	if (selectedDomain) {
@@ -55,20 +54,19 @@ async function handleClickReplaceDomain(event) {
 			fetch(newUrl, {
 				mode: 'no-cors'
 			})
-				.then(async () => {
-					$message.innerHTML = ''
-					chrome.tabs.sendMessage(activeTab.id, { newUrl })
-				})
-				.catch(() => {
-					$message.innerHTML = "No available domain"
-				})
+			.then(async () => {
+				$message.innerHTML = ''
+				chrome.tabs.create({ url: newUrl })
+			})
+			.catch(() => {
+				$message.innerHTML = "No available domain"
+			})
 		}
 	}
 }
 
 function handleClickRemoveDomain(event) {
 	event.preventDefault()
-	const domainInput = document.querySelector("#replaceDomainInput")
 	const selectedDomain = domainInput.value
 	const rawCookie = getCookie(COOKIE_NAME)
 	if (rawCookie) {

@@ -3,12 +3,6 @@
   "name": "Domain replacer",
   "description": "Replace the domain for another one",
   "version": "0.1.0",
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["utils/cookies.js", "contentScript.js"]
-    }
-  ],
   "action": {
     "default_popup": "popup.html"
   },
@@ -16,7 +10,6 @@
     "128": "icon_128.png"
   },
   "permissions": [
-    "cookies",
     "tabs",
     "activeTab"
   ],

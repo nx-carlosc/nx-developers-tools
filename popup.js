@@ -12,7 +12,7 @@ function getStoredDomainsAndFillInput(newDomain) {
 	chrome.storage.sync.get([STORED_DOMAINS_NAME], (result) => {
 		const storedDomains = result[STORED_DOMAINS_NAME] || []
 		const newDomains = newDomain
-			? storedDomains.every((el) => el.name !== newDomain)
+			? storedDomains.every((el) => el.name !== newDomain.name)
 				? [...storedDomains, newDomain]
 				: [
 						...storedDomains.filter((el) => el.name !== newDomain.name),

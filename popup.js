@@ -12,10 +12,10 @@ function getStoredDomainsAndFillInput(newDomain) {
 	chrome.storage.sync.get([STORED_DOMAINS_NAME], (result) => {
 		const storedDomains = result[STORED_DOMAINS_NAME] || []
 		const newDomains = newDomain
-			? storedDomains.every((el) => el.name !== selectedDomain)
+			? storedDomains.every((el) => el.name !== newDomain)
 				? [...storedDomains, newDomain]
 				: [
-						...storedDomains.filter((el) => el.name !== selectedDomain),
+						...storedDomains.filter((el) => el.name !== newDomain.name),
 						newDomain,
 				  ]
 			: storedDomains
@@ -45,8 +45,6 @@ function fillWithStoredDomains(domains) {
 async function handleClickReplaceDomain(event) {
 	event.preventDefault()
 	const selectedDomain = domainInput.value.trim().replace(/\/$/, "")
-
-	console.log({ selectedDomain });
 
 	if (selectedDomain) {
 		const newDomain = { name: selectedDomain, createdAt: Date.now() }

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Domain replacer",
-  "description": "Replace the domain for another one",
-  "version": "0.1.0",
+  "name": "nx-developers-tools",
+  "description": "Tools for nexian developers",
+  "version": "0.1.1",
   "action": {
     "default_popup": "popup.html"
   },

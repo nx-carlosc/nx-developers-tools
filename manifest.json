@@ -11,9 +11,20 @@
   },
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "activeTab"
   ],
-  "host_permissions": [
-    "<all_urls>"
-   ]
+  "content_scripts": [
+    {
+      "matches": [
+        "https://jira.nexum.de/*"
+      ],
+      "js": [
+        "jira-script.js"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }

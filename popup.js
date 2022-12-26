@@ -1,54 +1,59 @@
 const STORED_DOMAINS_NAME = "domain-replacer-values"
 const STORED_BRANCH_VALUES = "branch-values"
-const domainInput = document.querySelector("#replaceDomainInput")
-const replaceButton = document.querySelector("#replaceDomainButton")
 const removeButton = document.querySelector("#removeDomainButton")
 const $ = (selector) => document.querySelector(selector)
 const $$ = (selector) => document.querySelectorAll(selector)
 const BRANCH_REGEXP = /^[\./]|\.\.|@{|[\/\.]$|^@$|[~^:\x00-\x20\x7F\s?*[\\]/g
 
-replaceButton.addEventListener("click", handleClickReplaceDomain)
-removeButton.addEventListener("click", handleClickRemoveDomain)
-
-let branchInputValue = "$2:$3"
-let charReplacerValue = "-"
+let branchInputValue = ""
+let charReplacerValue = ""
 let avatar = ""
 let project = ""
 let ticket = ""
 let title = ""
 
+$("#replaceDomainButton").addEventListener("click", handleClickReplaceDomain)
+removeButton.addEventListener("click", handleClickRemoveDomain)
+$("#replaceDomainInput").addEventListener("click", (e) => {
+	e.target.select()
+})
 $("#branchInput").value = branchInputValue
 $("#charReplacer").value = charReplacerValue
 
 getStoredDomainsAndFillInput()
 
 getCurrentTab().then((tab) => {
-	if (tab.url.includes("https://jira.nexum.de")) {
+	if (tab.status === "loading") {
+		chrome.tabs.onUpdated.addListener((tabId, info) => {
+			if (
+				info.status === "complete" &&
+				tab.url.includes("https://jira.nexum.de")
+			) {
+				generateBranch({ tabId })
+			}
+		})
+	} else if (tab.url.includes("https://jira.nexum.de")) {
 		generateBranch({ tabId: tab.id })
 	}
 })
 
-function getStoredDomainsAndFillInput(newDomain) {
-	chrome.storage.sync.get([STORED_DOMAINS_NAME], (result) => {
-		const storedDomains = result[STORED_DOMAINS_NAME] || []
-		const newDomains = newDomain
-			? storedDomains.every((el) => el.name !== newDomain.name)
-				? [...storedDomains, newDomain]
-				: [
-						...storedDomains.filter((el) => el.name !== newDomain.name),
-						newDomain,
-				  ]
-			: storedDomains
+async function getStoredDomainsAndFillInput(newDomain) {
+	const result = await chrome.storage.sync.get([STORED_DOMAINS_NAME])
+	const storedDomains = result[STORED_DOMAINS_NAME] || []
+	const newDomains = newDomain
+		? storedDomains.every((el) => el.name !== newDomain.name)
+			? [...storedDomains, newDomain]
+			: [...storedDomains.filter((el) => el.name !== newDomain.name), newDomain]
+		: storedDomains
 
-		fillWithStoredDomains(newDomains)
-		chrome.storage.sync.set({ [STORED_DOMAINS_NAME]: newDomains })
-	})
+	fillWithStoredDomains(newDomains)
+	chrome.storage.sync.set({ [STORED_DOMAINS_NAME]: newDomains })
 }
 
 function fillWithStoredDomains(domains) {
 	domains.sort((a, b) => b.createdAt - a.createdAt)
 	const datalist = document.querySelector("datalist#domains")
-	domainInput.value = domains.length ? domains[0].name : ""
+	$("#replaceDomainInput").value = domains.length ? domains[0].name : ""
 
 	const options = domains
 		.map(
@@ -64,7 +69,9 @@ function fillWithStoredDomains(domains) {
 
 async function handleClickReplaceDomain(event) {
 	event.preventDefault()
-	const selectedDomain = domainInput.value.trim().replace(/\/$/, "")
+	const selectedDomain = $("#replaceDomainInput")
+		.value.trim()
+		.replace(/\/$/, "")
 
 	if (selectedDomain) {
 		const newDomain = { name: selectedDomain, createdAt: Date.now() }
@@ -94,7 +101,7 @@ async function handleClickReplaceDomain(event) {
 
 function handleClickRemoveDomain(event) {
 	event.preventDefault()
-	const selectedDomain = domainInput.value
+	const selectedDomain = $("#replaceDomainInput").value
 	chrome.storage.sync.get([STORED_DOMAINS_NAME], (result) => {
 		const storedDomains = result[STORED_DOMAINS_NAME] || []
 
@@ -118,11 +125,13 @@ function generateBranch({ tabId }) {
 	})
 }
 
-function fillBranchCreator() {
-	$("#branchGenerator").classList.remove("hidden")
-	$("#jiraProject").innerText = project
-	$("#jiraTicket").innerText = ticket
-	$("#jiraTitle").innerText = title
+async function fillBranchCreator() {
+	if(project || ticket || title ) {
+		$("#branchGenerator").classList.remove("hidden")
+		$("#jiraProject").innerText = project
+		$("#jiraTicket").innerText = ticket
+		$("#jiraTitle").innerText = title
+	}
 
 	if (avatar) {
 		const $jiraAvatarImg = $("#jiraAvatar")
@@ -130,35 +139,72 @@ function fillBranchCreator() {
 		$jiraAvatarImg.setAttribute("src", avatar)
 	}
 
+	if (project) {
+		const { [STORED_BRANCH_VALUES]: projectValues } =
+			await chrome.storage.sync.get([STORED_BRANCH_VALUES])
+
+		if (projectValues) {
+			branchInputValue =
+				projectValues[project]?.branchInputValue || branchInputValue
+			charReplacerValue =
+				projectValues[project]?.charReplacerValue || charReplacerValue
+			$("#branchInput").value = branchInputValue
+			$("#charReplacer").value = charReplacerValue
+		}
+	}
+
 	fillBranchResult()
 
 	$("#branchInput").addEventListener("input", (e) => {
 		branchInputValue = e.target.value
+		project && saveProjectInStorage()
 		fillBranchResult()
 	})
 
 	$("#charReplacer").addEventListener("input", (e) => {
 		charReplacerValue = e.target.value.replace(BRANCH_REGEXP, "")
 		e.target.value = charReplacerValue
+		project && saveProjectInStorage()
 		fillBranchResult()
 	})
 
+	async function saveProjectInStorage() {
+		const { [STORED_BRANCH_VALUES]: projectValues } =
+			await chrome.storage.sync.get([STORED_BRANCH_VALUES])
+
+		const newValue = { [project]: { branchInputValue, charReplacerValue } }
+		chrome.storage.sync.set({
+			[STORED_BRANCH_VALUES]: { ...projectValues, ...newValue },
+		})
+	}
+
 	function fillBranchResult() {
 		branchInputValue
-			? $("#copyBranchName").classList.remove("hidden")
-			: $("#copyBranchName").classList.add("hidden")
+			? $("#branchResult").classList.remove("hidden")
+			: $("#branchResult").classList.add("hidden")
 
-		$("#branchResultValue").innerText = branchNameResult()
-		$("#copyBranchName")?.addEventListener("click", () => {
-			navigator.clipboard.writeText(branchInputValue)
+		const branchNameResult = branchNameCreator()
+
+		const $branchResultValue = $("#branchResultValue")
+		$branchResultValue.innerText = branchNameResult
+
+		$("#branchResult")?.addEventListener("click", () => {
+			navigator.clipboard.writeText(branchNameResult)
+			$branchResultValue.innerText = "COPIED!"
+			setTimeout(() => {
+				$branchResultValue.innerText = branchNameResult
+			}, 1000)
 		})
 	}
 }
 
-function branchNameResult() {
-	return branchInputValue
+function branchNameCreator() {
+	const result = branchInputValue
 		.replace(/\$1/g, project)
 		.replace(/\$2/g, ticket)
 		.replace(/\$3/g, title)
 		.replace(BRANCH_REGEXP, charReplacerValue)
+	if(charReplacerValue) return result.replace(new RegExp(`${charReplacerValue}{1,}`, "g"), charReplacerValue)
+
+	return result
 }

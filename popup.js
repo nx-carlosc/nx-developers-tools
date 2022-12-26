@@ -1,12 +1,32 @@
 const STORED_DOMAINS_NAME = "domain-replacer-values"
+const STORED_BRANCH_VALUES = "branch-values"
 const domainInput = document.querySelector("#replaceDomainInput")
 const replaceButton = document.querySelector("#replaceDomainButton")
 const removeButton = document.querySelector("#removeDomainButton")
+const $ = (selector) => document.querySelector(selector)
+const $$ = (selector) => document.querySelectorAll(selector)
+const BRANCH_REGEXP = /^[\./]|\.\.|@{|[\/\.]$|^@$|[~^:\x00-\x20\x7F\s?*[\\]/g
+
 replaceButton.addEventListener("click", handleClickReplaceDomain)
 removeButton.addEventListener("click", handleClickRemoveDomain)
 
+let branchInputValue = "$2:$3"
+let charReplacerValue = "-"
+let avatar = ""
+let project = ""
+let ticket = ""
+let title = ""
+
+$("#branchInput").value = branchInputValue
+$("#charReplacer").value = charReplacerValue
+
 getStoredDomainsAndFillInput()
-domainInput.select()
+
+getCurrentTab().then((tab) => {
+	if (tab.url.includes("https://jira.nexum.de")) {
+		generateBranch({ tabId: tab.id })
+	}
+})
 
 function getStoredDomainsAndFillInput(newDomain) {
 	chrome.storage.sync.get([STORED_DOMAINS_NAME], (result) => {
@@ -86,3 +106,59 @@ function handleClickRemoveDomain(event) {
 	})
 }
 
+function generateBranch({ tabId }) {
+	chrome.tabs.sendMessage(tabId, "send-jira-data", (response) => {
+		if (response) {
+			avatar = response.avatar
+			project = response.project
+			ticket = response.ticket
+			title = response.title
+			fillBranchCreator()
+		}
+	})
+}
+
+function fillBranchCreator() {
+	$("#branchGenerator").classList.remove("hidden")
+	$("#jiraProject").innerText = project
+	$("#jiraTicket").innerText = ticket
+	$("#jiraTitle").innerText = title
+
+	if (avatar) {
+		const $jiraAvatarImg = $("#jiraAvatar")
+		$jiraAvatarImg.classList.remove("hidden")
+		$jiraAvatarImg.setAttribute("src", avatar)
+	}
+
+	fillBranchResult()
+
+	$("#branchInput").addEventListener("input", (e) => {
+		branchInputValue = e.target.value
+		fillBranchResult()
+	})
+
+	$("#charReplacer").addEventListener("input", (e) => {
+		charReplacerValue = e.target.value.replace(BRANCH_REGEXP, "")
+		e.target.value = charReplacerValue
+		fillBranchResult()
+	})
+
+	function fillBranchResult() {
+		branchInputValue
+			? $("#copyBranchName").classList.remove("hidden")
+			: $("#copyBranchName").classList.add("hidden")
+
+		$("#branchResultValue").innerText = branchNameResult()
+		$("#copyBranchName")?.addEventListener("click", () => {
+			navigator.clipboard.writeText(branchInputValue)
+		})
+	}
+}
+
+function branchNameResult() {
+	return branchInputValue
+		.replace(/\$1/g, project)
+		.replace(/\$2/g, ticket)
+		.replace(/\$3/g, title)
+		.replace(BRANCH_REGEXP, charReplacerValue)
+}

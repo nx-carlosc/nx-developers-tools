@@ -9,27 +9,57 @@
 
 <body>
   <main>
+    <h1>nx-developers-tools</h1>
     <section>
       <form>
-        <input type="text" list="domains" name="domain" id="replaceDomainInput">
-        <datalist id="domains">
-        </datalist>
-        <div class="buttons">
-          <button id="replaceDomainButton">
-            Replace
-          </button>
+        <div class="domain-input-button">
+          <input type="text" list="domains" name="domain" id="replaceDomainInput" placeholder="https://mydomain.com">
           <button id="removeDomainButton">
-            <svg width="18px" height="18px" class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall  css-f5io2" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="DeleteIcon" aria-label="fontSize small"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="crimson"></path></svg>
+            <svg width="18px" height="18px" viewBox="0 0 24 24">
+              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="crimson">
+              </path>
+            </svg>
           </button>
         </div>
+        <datalist id="domains">
+        </datalist>
+        <button id="replaceDomainButton" class="blue-button">
+          Replace Domain
+        </button>
       </form>
       <div class="message"></div>
     </section>
-    <section>
-      <div class="branch"></div>
-      <button>
-        copy to clickboard
-      </button>
+    <section id="branchGenerator" class="hidden">
+      <div class="jira-data">
+        <picture>
+          <img class="hidden" id="jiraAvatar">
+        </picture>
+        <div class="jira-data-items">
+          <div class="jira-data-item">
+            $1(project): <span id="jiraProject"></span>
+          </div>
+          <div class="jira-data-item">
+            $2(ticket): <span id="jiraTicket"></span>
+          </div>
+          <div class="jira-data-item">
+            $3(title): <span id="jiraTitle"></span>
+          </div>
+        </div>
+      </div>
+      <div class="branch" id="branchName">
+        <input type="text" id="branchInput" maxlength="124" placeholder="$2-$3">
+        <input type="text" id="charReplacer" maxlength="1" placeholder="-">
+      </div>
+      <div id="branchResult">
+        <div id="branchResultValue"></div>
+        <button id="copyBranchName" class="flex hidden" title="copy to clipboard">
+          <svg width="18" height="18" viewBox="0 0 24 24">
+            <path
+              d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"
+              fill="crimson"></path>
+          </svg>
+        </button>
+      </div>
     </section>
   </main>
 </body>

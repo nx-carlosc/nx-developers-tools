@@ -1,4 +1,4 @@
-# Tools for nexians devs
+# Tools for nexian devs
 
 ## Domain Replacer
 - Swap between instances quickly

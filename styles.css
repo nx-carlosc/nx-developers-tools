@@ -55,7 +55,8 @@ button {
 	margin: 0;
 }
 #replaceDomainButton {
-	margin-block: 0.5rem;
+	margin-block: 1rem;
+	font-weight: 600;
 }
 .hidden {
 	display: none !important;

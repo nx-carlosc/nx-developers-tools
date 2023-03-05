@@ -1,0 +1,23 @@
+{
+  "name": "nx-developers-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nx-carlosc/domain-replacer-chrome-extension.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nx-carlosc/domain-replacer-chrome-extension/issues"
+  },
+  "homepage": "https://github.com/nx-carlosc/domain-replacer-chrome-extension#readme"
+}

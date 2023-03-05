@@ -1,6 +1,6 @@
 # Tools for nexian devs
 
-![logo](./icon_128.png)
+![logo](./dist/icon_128.png)
 
 ## Distribution
 

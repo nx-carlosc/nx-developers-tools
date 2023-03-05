@@ -1,12 +1,13 @@
-const removeButton = document.querySelector("#removeDomainButton")
-const $ = (selector) => document.querySelector(selector)
-const $$ = (selector) => document.querySelectorAll(selector)
 import {
 	BRANCH_REGEXP,
 	STORED_BRANCH_VALUES,
 	STORED_DOMAINS_NAME,
 } from "./consts.js"
 import { getCurrentTab } from "./utils/getCurrentTab.js"
+import { branchNameCreator } from "./utils/branchNameCreator.js"
+import { $, $$ } from "./utils/selectors.js"
+
+const removeButton = $("#removeDomainButton")
 
 let branchInputValue = ""
 let charReplacerValue = ""
@@ -55,7 +56,7 @@ async function getStoredDomainsAndFillInput(newDomain) {
 
 function fillWithStoredDomains(domains) {
 	domains.sort((a, b) => b.createdAt - a.createdAt)
-	const datalist = document.querySelector("datalist#domains")
+	const datalist = $("datalist#domains")
 	$("#replaceDomainInput").value = domains.length ? domains[0].name : ""
 
 	const options = domains
@@ -85,7 +86,7 @@ async function handleClickReplaceDomain(event) {
 		if (tabUrl) {
 			const { origin } = new URL(tabUrl)
 			const newUrl = tabUrl.replace(origin, selectedDomain)
-			const $message = document.querySelector(".message")
+			const $message = $(".message")
 			$message.innerHTML = "Fetching..."
 
 			fetch(newUrl, {
@@ -186,7 +187,13 @@ async function fillBranchCreator() {
 			? $("#branchResult").classList.remove("hidden")
 			: $("#branchResult").classList.add("hidden")
 
-		const branchNameResult = branchNameCreator()
+		const branchNameResult = branchNameCreator({
+			project,
+			branchInputValue,
+			charReplacerValue,
+			ticket,
+			title,
+		})
 
 		const $branchResultValue = $("#branchResultValue")
 		$branchResultValue.innerText = branchNameResult
@@ -199,19 +206,4 @@ async function fillBranchCreator() {
 			}, 1000)
 		})
 	}
-}
-
-function branchNameCreator() {
-	const result = branchInputValue
-		.replace(/\$1/g, project)
-		.replace(/\$2/g, ticket)
-		.replace(/\$3/g, title)
-		.replace(BRANCH_REGEXP, charReplacerValue)
-	if (charReplacerValue)
-		return result.replace(
-			new RegExp(`${charReplacerValue}{1,}`, "g"),
-			charReplacerValue
-		)
-
-	return result
 }

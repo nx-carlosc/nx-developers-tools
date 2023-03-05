@@ -1,9 +1,12 @@
-const STORED_DOMAINS_NAME = "domain-replacer-values"
-const STORED_BRANCH_VALUES = "branch-values"
 const removeButton = document.querySelector("#removeDomainButton")
 const $ = (selector) => document.querySelector(selector)
 const $$ = (selector) => document.querySelectorAll(selector)
-const BRANCH_REGEXP = /^[\./]|\.\.|@{|[\/\.]$|^@$|[~^:\x00-\x20\x7F\s?*[\\]/g
+import {
+	BRANCH_REGEXP,
+	STORED_BRANCH_VALUES,
+	STORED_DOMAINS_NAME,
+} from "./consts.js"
+import { getCurrentTab } from "./utils/getCurrentTab.js"
 
 let branchInputValue = ""
 let charReplacerValue = ""
@@ -126,7 +129,7 @@ function generateBranch({ tabId }) {
 }
 
 async function fillBranchCreator() {
-	if(project || ticket || title ) {
+	if (project || ticket || title) {
 		$("#branchGenerator").classList.remove("hidden")
 		$("#jiraProject").innerText = project
 		$("#jiraTicket").innerText = ticket
@@ -204,7 +207,11 @@ function branchNameCreator() {
 		.replace(/\$2/g, ticket)
 		.replace(/\$3/g, title)
 		.replace(BRANCH_REGEXP, charReplacerValue)
-	if(charReplacerValue) return result.replace(new RegExp(`${charReplacerValue}{1,}`, "g"), charReplacerValue)
+	if (charReplacerValue)
+		return result.replace(
+			new RegExp(`${charReplacerValue}{1,}`, "g"),
+			charReplacerValue
+		)
 
 	return result
 }

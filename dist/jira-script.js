@@ -1,28 +1,42 @@
+const $ = (selector) => document.querySelector(selector)
+const $$ = (selector) => document.querySelectorAll(selector)
+
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (message === "send-jira-data") {
+		if (location.href.match(/atlassian/i)) {
+			const $breadcrumbs = $$('[aria-label="Breadcrumbs"] ol > * ')
+
+			const avatar =
+				$breadcrumbs[1].querySelector("img")?.getAttribute("src") || ""
+
+			const project = $breadcrumbs[1]?.innerText?.trim() || ""
+
+			const ticket = $breadcrumbs[2].innerText?.trim() || ""
+
+			const title = $("h1")?.innerText?.trim() || ""
+
+			sendResponse({ avatar, project, ticket, title })
+			return
+		}
+
 		const avatar =
-			document.querySelector("#project-avatar")?.getAttribute("src") ||
-			document
-				.querySelector(".ghx-project-avatar")
-				?.querySelector("img")
-				?.getAttribute("src") ||
+			$("#project-avatar")?.getAttribute("src") ||
+			$(".ghx-project-avatar")?.querySelector("img")?.getAttribute("src") ||
 			""
 		const project =
-			document.querySelector("#project-name-val")?.innerText?.trim() ||
-			document
-				.querySelector("#ghx-detail-head")
-				?.querySelector(".ghx-project")
-				?.innerText?.trim() ||
+			$("#project-name-val")?.innerText?.trim() ||
+			$("#ghx-detail-head")?.querySelector(".ghx-project")?.innerText?.trim() ||
 			""
 		const ticket =
-			document.querySelector("#key-val")?.dataset?.issueKey ||
-			document.querySelector("#key-val")?.innerText?.trim() ||
-			document.querySelector("#issuekey-val")?.innerText?.trim() ||
+			$("#key-val")?.dataset?.issueKey ||
+			$("#key-val")?.innerText?.trim() ||
+			$("#issuekey-val")?.innerText?.trim() ||
 			""
 		const title =
-			document.querySelector("#summary-val")?.innerText?.trim() ||
-			document.querySelector("#summary-val")?.innerText?.trim() ||
+			$("#summary-val")?.innerText?.trim() ||
+			$("#summary-val")?.innerText?.trim() ||
 			""
+
 		sendResponse({ avatar, project, ticket, title })
 	}
 })

@@ -17,7 +17,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://jira.nexum.de/*"
+        "<all_urls>"
       ],
       "js": [
         "jira-script.js"

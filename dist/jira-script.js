@@ -3,6 +3,23 @@ const $$ = (selector) => document.querySelectorAll(selector)
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (message === "send-jira-data") {
+		if (location.href.match(/atlassian.+modal/i)) {
+			const $breadcrumbs = $$('[aria-label="Breadcrumbs"] ol > * ')
+
+			const avatar =
+				$breadcrumbs[1].querySelector("img")?.getAttribute("src") || ""
+
+			const project = $breadcrumbs[1]?.innerText?.trim() || ""
+
+			const ticket =
+				$breadcrumbs[$breadcrumbs.length - 1].innerText?.trim() || ""
+
+			const title = $('[role="dialog"] h1')?.innerText?.trim() || ""
+
+			sendResponse({ avatar, project, ticket, title })
+			return
+		}
+
 		if (location.href.match(/atlassian/i)) {
 			const $breadcrumbs = $$('[aria-label="Breadcrumbs"] ol > * ')
 
@@ -11,7 +28,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
 			const project = $breadcrumbs[1]?.innerText?.trim() || ""
 
-			const ticket = $breadcrumbs[2].innerText?.trim() || ""
+			const ticket =
+				$breadcrumbs[$breadcrumbs.length - 1].innerText?.trim() || ""
 
 			const title = $("h1")?.innerText?.trim() || ""
 

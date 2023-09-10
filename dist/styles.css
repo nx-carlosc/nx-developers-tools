@@ -9,11 +9,11 @@ body {
 	width: 400px;
 	background-color: #000;
 	padding: 0.8rem;
-	min-height: 100px;
+	min-height: 240px;
 }
 h1 {
 	text-align: center;
-  color: goldenrod;
+	color: goldenrod;
 }
 section {
 	padding: 1rem;

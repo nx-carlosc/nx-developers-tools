@@ -2,10 +2,10 @@ import { STORED_DOMAINS_NAME } from "./consts.js"
 import { getCurrentTab } from "./utils/getCurrentTab.js"
 import { $ } from "./utils/selectors.js"
 
-const removeButton = $("#removeDomainButton")
-
+$("#replaceDomainInput").focus()
+$("#replaceDomainInput").select()
 $("#replaceDomainButton").addEventListener("click", handleClickReplaceDomain)
-removeButton.addEventListener("click", handleClickRemoveDomain)
+$("#removeDomainButton").addEventListener("click", handleClickRemoveDomain)
 $("#replaceDomainInput").addEventListener("click", (e) => {
 	e.target.select()
 })

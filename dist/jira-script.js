@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		}
 
 		if (location.href.match(/atlassian/i)) {
-			const $breadcrumbs = $$('[aria-label="Breadcrumbs"] ol > * ')
+			const $breadcrumbs = $$('[aria-label*="readcrumb"] ol > * ')
 
 			const avatar =
 				$breadcrumbs[1].querySelector("img")?.getAttribute("src") || ""

@@ -32,6 +32,7 @@ function generateBranch({ tabId }) {
 			project = response.project
 			ticket = response.ticket
 			title = response.title
+
 			fillBranchCreator()
 		}
 	})

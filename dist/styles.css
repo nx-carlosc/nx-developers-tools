@@ -10,6 +10,14 @@ body {
 	background-color: #000;
 	padding: 0.8rem;
 	min-height: 240px;
+	position: relative;
+}
+#manifestVersion {
+	position: absolute;
+	bottom: 0.4rem;
+	right: 0.6rem;
+	font-size: 0.65rem;
+	color: #444;
 }
 h1 {
 	text-align: center;
@@ -68,6 +76,17 @@ button {
 	gap: 1rem;
 	margin-block: 0.5rem;
 }
+.jira-data-items {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	flex: 1;
+}
+.jira-data-item {
+	font-size: 1rem;
+	word-break: break-word;
+	overflow-wrap: anywhere;
+}
 .jira-data-item span {
 	color: goldenrod;
 }
@@ -88,7 +107,7 @@ button {
 	padding: 0.5rem;
 	border: 1px solid white;
 	background-color: #222;
-	cursor: pointer;
+	cursor: default;
 }
 #branchName span {
 	flex-grow: 1;
@@ -97,6 +116,9 @@ button {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
+	border-top: 1px solid #2a2a2a;
+	padding-top: 0.5rem;
+	margin-top: -0.5rem;
 }
 .flex {
 	display: flex;
@@ -106,13 +128,99 @@ button {
 	align-items: center;
 	gap: 1rem;
 }
+.branch-field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	flex: 1;
+}
+.branch-field:last-child {
+	flex: 0 0 auto;
+}
+.branch-label {
+	font-size: 0.7rem;
+	color: #666;
+	text-transform: lowercase;
+	letter-spacing: 0.05em;
+}
 #charReplacer {
 	width: 3rem;
 	text-align: center;
 }
+.result-text-wrapper {
+	position: relative;
+	flex: 1;
+	min-height: 2rem;
+}
 #branchResultValue {
 	word-break: break-all;
+	outline: none;
+	cursor: text;
+}
+#copiedFeedback {
+	position: absolute;
+	inset: 0;
 	display: flex;
 	align-items: center;
-	min-height: 2rem;
+	justify-content: center;
+	color: goldenrod;
+}
+#copyBranchName {
+	cursor: pointer;
+	flex-shrink: 0;
+}
+select {
+	background-color: white;
+	color: cornflowerblue;
+	padding: 0.3rem 0.4rem;
+	border: none;
+	border-bottom: 1px solid cornflowerblue;
+	outline: none;
+	cursor: pointer;
+	width: auto;
+	min-width: 6rem;
+	max-width: 10rem;
+}
+select option {
+	background-color: white;
+	color: cornflowerblue;
+}
+.jira-data-type {
+	display: flex;
+	align-items: flex-end;
+	gap: 0.5rem;
+}
+#addBranchTypeButton,
+#removeBranchTypeButton {
+	display: flex;
+	align-items: center;
+	padding: 0.15rem 0.3rem;
+	border-radius: 3px;
+	opacity: 0.7;
+	transition: opacity 0.15s;
+}
+#addBranchTypeButton {
+	border: 1px solid cornflowerblue;
+}
+#removeBranchTypeButton {
+	border: 1px solid crimson;
+}
+#addBranchTypeButton:hover,
+#removeBranchTypeButton:hover {
+	opacity: 1;
+}
+#removeBranchTypeButton:disabled {
+	opacity: 0.2;
+	cursor: not-allowed;
+}
+#addTypeForm {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.25rem 0;
+}
+#newTypeInput {
+	flex: 1;
+	width: auto;
+	padding: 0.5rem 0.8rem;
 }

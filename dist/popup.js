@@ -1,6 +1,9 @@
 import { STORED_DOMAINS_NAME } from "./consts.js"
 import { getCurrentTab } from "./utils/getCurrentTab.js"
 import { $ } from "./utils/selectors.js"
+import "./branch-creator.js"
+
+$("#manifestVersion").innerText = `v${chrome.runtime.getManifest().version}`
 
 $("#replaceDomainInput").focus()
 $("#replaceDomainInput").select()

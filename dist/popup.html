@@ -4,7 +4,6 @@
 <head>
   <link rel="stylesheet" href="styles.css">
   <script defer src="popup.js" type="module"></script>
-  <script defer src="branch-creator.js" type="module"></script>
 </head>
 
 <body>
@@ -35,6 +34,16 @@
           <img class="hidden" id="jiraAvatar">
         </picture>
         <div class="jira-data-items">
+          <div class="jira-data-item jira-data-type">
+            $0(type):
+            <select id="branchType"></select>
+            <button id="addBranchTypeButton" title="Add type">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="cornflowerblue"/></svg>
+            </button>
+            <button id="removeBranchTypeButton" title="Remove type">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z" fill="crimson"/></svg>
+            </button>
+          </div>
           <div class="jira-data-item">
             $1(project): <span id="jiraProject"></span>
           </div>
@@ -46,12 +55,25 @@
           </div>
         </div>
       </div>
-      <div class="branch" id="branchName">
-        <input type="text" id="branchInput" maxlength="124" placeholder="$2-$3">
-        <input type="text" id="charReplacer" maxlength="1" placeholder="-">
+      <div id="addTypeForm" class="hidden">
+        <input type="text" id="newTypeInput" placeholder="new type" maxlength="20">
+        <button id="saveNewTypeButton" class="blue-button">Add</button>
       </div>
-      <div id="branchResult" title="copy to clipboard">
-        <div id="branchResultValue"></div>
+      <div class="branch" id="branchName">
+        <div class="branch-field">
+          <label class="branch-label" for="branchInput">branch</label>
+          <input type="text" id="branchInput" maxlength="124" placeholder="$0$2-$3">
+        </div>
+        <div class="branch-field">
+          <label class="branch-label" for="charReplacer">divider</label>
+          <input type="text" id="charReplacer" maxlength="1" placeholder="-">
+        </div>
+      </div>
+      <div id="branchResult">
+        <div class="result-text-wrapper">
+          <div id="branchResultValue" contenteditable="true" spellcheck="false"></div>
+          <div id="copiedFeedback" class="hidden">Copied to clipboard!</div>
+        </div>
         <button id="copyBranchName" class="flex">
           <svg width="18" height="18" viewBox="0 0 24 24">
             <path
@@ -62,6 +84,7 @@
       </div>
     </section>
   </main>
+  <div id="manifestVersion"></div>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 import { BRANCH_REGEXP } from "../consts.js"
 
 export function branchNameCreator({
+	type = "",
 	project,
 	ticket,
 	title,
@@ -8,6 +9,7 @@ export function branchNameCreator({
 	charReplacerValue,
 }) {
 	const result = branchInputValue
+		.replace(/\$0/g, type)
 		.replace(/\$1/g, project)
 		.replace(/\$2/g, ticket)
 		.replace(/\$3/g, title)

@@ -8,7 +8,8 @@
 
 <body>
   <main>
-    <h1>nx-developers-tools</h1>
+    <h1>nx-tools</h1>
+    <!-- Replace domain section -->
     <section>
       <form>
         <div class="domain-input-button">
@@ -28,6 +29,7 @@
       </form>
       <div class="message"></div>
     </section>
+    <!-- Branch generator section -->
     <section id="branchGenerator" class="hidden">
       <div class="jira-data">
         <picture>
@@ -38,10 +40,14 @@
             $0(type):
             <select id="branchType"></select>
             <button id="addBranchTypeButton" title="Add type">
-              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="cornflowerblue"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="cornflowerblue" />
+              </svg>
             </button>
             <button id="removeBranchTypeButton" title="Remove type">
-              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z" fill="crimson"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24">
+                <path d="M19 13H5v-2h14v2z" fill="crimson" />
+              </svg>
             </button>
           </div>
           <div class="jira-data-item">
@@ -83,8 +89,28 @@
         </button>
       </div>
     </section>
+    <!-- Task timer section -->
+    <section id="taskTimer">
+      <div id="timerControls">
+        <button id="startTimerButton" class="blue-button"><span>Start Timer</span><svg
+            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="cornflowerblue">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" />
+          </svg></button>
+        <div id="timerNameForm" class="hidden">
+          <input type="text" id="timerNameInput" placeholder="Task name">
+          <button id="timerNameSubmit" title="Start">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="cornflowerblue" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="taskList"></div>
+    </section>
   </main>
   <div id="manifestVersion"></div>
+  <script defer src="task-timer.js" type="module"></script>
 </body>
 
 </html>

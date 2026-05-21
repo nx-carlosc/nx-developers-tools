@@ -17,7 +17,7 @@ body {
 	bottom: 0.4rem;
 	right: 0.6rem;
 	font-size: 0.65rem;
-	color: #444;
+	color: #888;
 }
 h1 {
 	text-align: center;
@@ -139,7 +139,7 @@ button {
 }
 .branch-label {
 	font-size: 0.7rem;
-	color: #666;
+	color: #888;
 	text-transform: lowercase;
 	letter-spacing: 0.05em;
 }
@@ -223,4 +223,140 @@ select option {
 	flex: 1;
 	width: auto;
 	padding: 0.5rem 0.8rem;
+}
+#taskTimer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	border-top: 1px solid #2a2a2a;
+	padding-top: 0.75rem;
+	margin-top: -0.5rem;
+}
+#startTimerButton {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	text-decoration: none;
+	font-size: 1rem;
+	font-weight: 600;
+	color: cornflowerblue;
+}
+#startTimerButton span {
+	text-decoration: underline;
+}
+#startTimerButton svg {
+	flex-shrink: 0;
+}
+#timerNameForm {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+#timerNameInput {
+	flex: 1;
+	width: auto;
+	padding: 0.5rem 0.8rem;
+}
+#timerNameSubmit {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+.task-group-label {
+	font-size: 0.65rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: #888;
+}
+#taskList {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+.task-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding-block: 0.35rem;
+}
+.task-running {
+	border-left: 2px solid goldenrod;
+	padding-left: 0.5rem;
+}
+.task-info {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	flex: 1;
+	min-width: 0;
+}
+.task-row {
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	min-width: 0;
+}
+.task-name {
+	font-size: 0.85rem;
+	color: #ddd;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.task-meta {
+	font-size: 0.7rem;
+	color: cornflowerblue;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.task-timing {
+	font-size: 0.7rem;
+	color: #888;
+}
+.task-icon-btn {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	opacity: 0.55;
+	transition: opacity 0.15s;
+}
+.task-icon-btn:hover {
+	opacity: 1;
+}
+.task-copy-btn {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+	opacity: 0.55;
+	transition: opacity 0.15s;
+}
+.task-copy-btn:hover {
+	opacity: 1;
+}
+.task-name-input {
+	flex: 1;
+	width: auto;
+	padding: 0.2rem 0.4rem;
+	font-size: 0.85rem;
+}
+.task-actions {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 0.3rem;
+	flex-shrink: 0;
+}
+.task-btn-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 0.75rem;
+}
+.task-elapsed {
+	font-size: 0.8rem;
+	color: goldenrod;
+	min-width: 4.5rem;
+	text-align: right;
 }

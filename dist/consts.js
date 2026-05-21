@@ -8,3 +8,5 @@ export const STORED_BRANCH_VALUES = "branch-values"
 export const STORED_BRANCH_TYPES = "branch-types"
 
 export const DEFAULT_BRANCH_TYPES = ["feat", "fix", "hotfix", "release", "chore", "docs", "refactor"]
+
+export const STORED_TASKS = "time-tracker-tasks"

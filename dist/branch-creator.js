@@ -42,6 +42,7 @@ function generateBranch({ tabId }) {
 async function fillBranchCreator() {
 	if (project || ticket || title) {
 		$("#branchGenerator").classList.remove("hidden")
+		document.dispatchEvent(new CustomEvent("jira-data", { detail: { project, ticket, title } }))
 		$("#jiraProject").innerText = project
 		$("#jiraTicket").innerText = ticket
 		$("#jiraTitle").innerText = title

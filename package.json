@@ -13,13 +13,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nx-carlosc/domain-replacer-chrome-extension.git"
+    "url": "git+https://github.com/nx-carlosc/nx-developers-tools.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nx-carlosc/domain-replacer-chrome-extension/issues"
+    "url": "https://github.com/nx-carlosc/nx-developers-tools/issues"
   },
-  "homepage": "https://github.com/nx-carlosc/domain-replacer-chrome-extension#readme"
+  "homepage": "https://github.com/nx-carlosc/nx-developers-tools#readme",
+  "devDependencies": {
+    "@types/chrome": "^0.1.42",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.14",
+    "vitest": "^4.1.7"
+  }
 }

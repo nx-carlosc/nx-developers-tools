@@ -8,8 +8,11 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "node --test",
-    "test:watch": "node --test --watch"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "repository": {
     "type": "git",

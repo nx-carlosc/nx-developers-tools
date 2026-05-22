@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -11,7 +11,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         popup: resolve(__dirname, 'popup.html'),
         'jira-script': resolve(__dirname, 'src/jira-script.ts'),

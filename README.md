@@ -31,8 +31,10 @@ To publish a new version, upload the `/dist` folder to the Chrome Web Store.
 ## Development
 
 ```bash
+npm run dev        # build in watch mode (outputs to /dist)
+npm run build      # production build to /dist
 npm test           # run tests once
 npm run test:watch # run tests in watch mode
 ```
 
-No build step — all production code is in `/dist` and served directly to Chrome.
+The extension is built with Vite + React + TypeScript + Tailwind CSS v4. Run `npm run build` to produce `/dist`, then load it as an unpacked extension.

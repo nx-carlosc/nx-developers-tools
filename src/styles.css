@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 *,
 *::after,
 *::before {
@@ -424,8 +426,4 @@ select option {
 	color: goldenrod;
 	min-width: 4.5rem;
 	text-align: right;
-}
-
-.mt-3 {
-	margin-top: 12px;
 }

@@ -5,6 +5,7 @@
 	color: white;
 	font-family: monospace;
 }
+
 body {
 	width: 400px;
 	background-color: #000;
@@ -12,6 +13,7 @@ body {
 	min-height: 240px;
 	position: relative;
 }
+
 #manifestVersion {
 	position: absolute;
 	bottom: 0.4rem;
@@ -19,13 +21,16 @@ body {
 	font-size: 0.65rem;
 	color: #888;
 }
+
 h1 {
 	text-align: center;
 	color: goldenrod;
 }
+
 section {
 	padding: 1rem;
 }
+
 input {
 	background-color: white;
 	color: cornflowerblue;
@@ -35,6 +40,7 @@ input {
 	border-bottom: 1px solid cornflowerblue;
 	outline: none;
 }
+
 .buttons {
 	display: flex;
 	align-items: center;
@@ -42,6 +48,7 @@ input {
 	gap: 1rem;
 	margin-top: 2rem;
 }
+
 button {
 	background-color: transparent;
 	border: none;
@@ -49,26 +56,32 @@ button {
 	cursor: pointer;
 	padding: 0;
 }
+
 .blue-button {
 	font-size: 1.2rem;
 	font-weight: lighter;
 	text-decoration: underline;
 	color: cornflowerblue;
 }
+
 .message {
 	margin-top: 1rem;
 	color: goldenrod;
 }
+
 .message:empty {
 	margin: 0;
 }
+
 #replaceDomainButton {
 	margin-block: 1rem;
 	font-weight: 600;
 }
+
 .hidden {
 	display: none !important;
 }
+
 .jira-data {
 	display: flex;
 	align-items: center;
@@ -76,25 +89,30 @@ button {
 	gap: 1rem;
 	margin-block: 0.5rem;
 }
+
 .jira-data-items {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
 	flex: 1;
 }
+
 .jira-data-item {
 	font-size: 1rem;
 	word-break: break-word;
 	overflow-wrap: anywhere;
 }
+
 .jira-data-item span {
 	color: goldenrod;
 }
+
 #jiraAvatar {
 	width: 25px;
 	height: 25px;
 	border-radius: 25px;
 }
+
 #branchName,
 #branchResult {
 	display: flex;
@@ -102,6 +120,7 @@ button {
 	gap: 1rem;
 	justify-content: space-between;
 }
+
 #branchResult {
 	margin-block: 0.5rem;
 	padding: 0.5rem;
@@ -109,9 +128,11 @@ button {
 	background-color: #222;
 	cursor: default;
 }
+
 #branchName span {
 	flex-grow: 1;
 }
+
 #branchGenerator {
 	display: flex;
 	flex-direction: column;
@@ -120,43 +141,52 @@ button {
 	padding-top: 0.5rem;
 	margin-top: -0.5rem;
 }
+
 .flex {
 	display: flex;
 }
+
 .domain-input-button {
 	display: flex;
 	align-items: center;
 	gap: 1rem;
 }
+
 .branch-field {
 	display: flex;
 	flex-direction: column;
 	gap: 0.25rem;
 	flex: 1;
 }
+
 .branch-field:last-child {
 	flex: 0 0 auto;
 }
+
 .branch-label {
 	font-size: 0.7rem;
 	color: #888;
 	text-transform: lowercase;
 	letter-spacing: 0.05em;
 }
+
 #charReplacer {
 	width: 3rem;
 	text-align: center;
 }
+
 .result-text-wrapper {
 	position: relative;
 	flex: 1;
 	min-height: 2rem;
 }
+
 #branchResultValue {
 	word-break: break-all;
 	outline: none;
 	cursor: text;
 }
+
 #copiedFeedback {
 	position: absolute;
 	inset: 0;
@@ -165,10 +195,12 @@ button {
 	justify-content: center;
 	color: goldenrod;
 }
+
 #copyBranchName {
 	cursor: pointer;
 	flex-shrink: 0;
 }
+
 select {
 	background-color: white;
 	color: cornflowerblue;
@@ -181,15 +213,18 @@ select {
 	min-width: 6rem;
 	max-width: 10rem;
 }
+
 select option {
 	background-color: white;
 	color: cornflowerblue;
 }
+
 .jira-data-type {
 	display: flex;
 	align-items: flex-end;
 	gap: 0.5rem;
 }
+
 #addBranchTypeButton,
 #removeBranchTypeButton {
 	display: flex;
@@ -199,31 +234,38 @@ select option {
 	opacity: 0.7;
 	transition: opacity 0.15s;
 }
+
 #addBranchTypeButton {
 	border: 1px solid cornflowerblue;
 }
+
 #removeBranchTypeButton {
 	border: 1px solid crimson;
 }
+
 #addBranchTypeButton:hover,
 #removeBranchTypeButton:hover {
 	opacity: 1;
 }
+
 #removeBranchTypeButton:disabled {
 	opacity: 0.2;
 	cursor: not-allowed;
 }
+
 #addTypeForm {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.25rem 0;
 }
+
 #newTypeInput {
 	flex: 1;
 	width: auto;
 	padding: 0.5rem 0.8rem;
 }
+
 #taskTimer {
 	display: flex;
 	flex-direction: column;
@@ -232,6 +274,7 @@ select option {
 	padding-top: 0.75rem;
 	margin-top: -0.5rem;
 }
+
 #startTimerButton {
 	display: flex;
 	align-items: center;
@@ -241,38 +284,46 @@ select option {
 	font-weight: 600;
 	color: cornflowerblue;
 }
+
 #startTimerButton span {
 	text-decoration: underline;
 }
+
 #startTimerButton svg {
 	flex-shrink: 0;
 }
+
 #timerNameForm {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
 }
+
 #timerNameInput {
 	flex: 1;
 	width: auto;
 	padding: 0.5rem 0.8rem;
 }
+
 #timerNameSubmit {
 	display: flex;
 	align-items: center;
 	flex-shrink: 0;
 }
+
 .task-group-label {
 	font-size: 0.65rem;
 	text-transform: uppercase;
 	letter-spacing: 0.08em;
 	color: #888;
 }
+
 #taskList {
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
 }
+
 .task-item {
 	display: flex;
 	align-items: center;
@@ -280,10 +331,12 @@ select option {
 	gap: 0.5rem;
 	padding-block: 0.35rem;
 }
+
 .task-running {
 	border-left: 2px solid goldenrod;
 	padding-left: 0.5rem;
 }
+
 .task-info {
 	display: flex;
 	flex-direction: column;
@@ -291,12 +344,14 @@ select option {
 	flex: 1;
 	min-width: 0;
 }
+
 .task-row {
 	display: flex;
 	align-items: center;
 	gap: 0.3rem;
 	min-width: 0;
 }
+
 .task-name {
 	font-size: 0.85rem;
 	color: #ddd;
@@ -304,6 +359,7 @@ select option {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
 .task-meta {
 	font-size: 0.7rem;
 	color: cornflowerblue;
@@ -311,10 +367,12 @@ select option {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
 .task-timing {
 	font-size: 0.7rem;
 	color: #888;
 }
+
 .task-icon-btn {
 	display: flex;
 	align-items: center;
@@ -322,9 +380,11 @@ select option {
 	opacity: 0.55;
 	transition: opacity 0.15s;
 }
+
 .task-icon-btn:hover {
 	opacity: 1;
 }
+
 .task-copy-btn {
 	display: flex;
 	align-items: center;
@@ -332,15 +392,18 @@ select option {
 	opacity: 0.55;
 	transition: opacity 0.15s;
 }
+
 .task-copy-btn:hover {
 	opacity: 1;
 }
+
 .task-name-input {
 	flex: 1;
 	width: auto;
 	padding: 0.2rem 0.4rem;
 	font-size: 0.85rem;
 }
+
 .task-actions {
 	display: flex;
 	flex-direction: column;
@@ -348,15 +411,21 @@ select option {
 	gap: 0.3rem;
 	flex-shrink: 0;
 }
+
 .task-btn-row {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	gap: 0.75rem;
 }
+
 .task-elapsed {
 	font-size: 0.8rem;
 	color: goldenrod;
 	min-width: 4.5rem;
 	text-align: right;
+}
+
+.mt-3 {
+	margin-top: 12px;
 }

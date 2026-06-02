@@ -95,7 +95,7 @@ export default function DomainReplacer() {
             <option key={d.name} value={d.name} />
           ))}
         </datalist>
-        <button type="submit" className="blue-button">
+        <button type="submit" className="blue-button mt-3">
           Replace Domain
         </button>
       </form>

@@ -183,6 +183,7 @@ export default function BranchCreator({ jiraData }: BranchCreatorProps) {
             <div
               ref={resultRef}
               id="branchResultValue"
+              className={copied ? 'hidden' : ''}
               contentEditable
               suppressContentEditableWarning
               spellCheck={false}
